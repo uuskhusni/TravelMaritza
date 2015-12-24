@@ -1,0 +1,20 @@
+{
+  "name"       : "travel julisman",
+  "description": "Desktop app Travel.",
+  "copyright"  : "(c) 2013 Agung Julisman",
+  "version"    : "0.1",
+  "main"       : "index.html",
+
+
+  "window": {
+    "icon"      : "logo.png",
+    "toolbar"   : false,
+    "width"     : 1366,
+    "height"    : 648,
+    "min-width"		: 1366,
+    "min-height"	: 648
+  }
+
+
+}
+
