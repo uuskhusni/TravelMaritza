@@ -1,0 +1,234 @@
+<div growl noprint></div>
+<div ng-include src="'./core/view/header.html'" class="noprint"></div>
+<div class="row-fluid" ng-init="halaman='satu'">
+    <div class="span12">
+    <h2 style="color: #FFFFFF" class="noprint">{{ judulform }}</h2>
+    <div class="progress" class="noprint">
+        <div class="bar " style="{{indikatorform}}"></div>
+    </div>
+        <form class="form-horizontal">
+        <div ng-switch="halaman" class="my-switch-container">
+            <!--proses pertama-->
+          <div ng-switch-when="satu" class="my-switch-animation">
+            <div class="control-group">
+                <label class="control-label">Tanggal Berangkat</label>
+                <div class="controls">
+                    <div class="span12" >
+                        <input type="text" ng-model="data.tanggal" id="dp2" data-date-format="ddMMyyyy" value="02-16-2012" class="span2 datepicker" data-provide="datepicker">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Kebrangkatan</label>
+                <div class="controls">
+                    <div class="span12" >
+                        <select  name="asal" ng-model="data.asal"  data-placeholder="-- Pilih Asal --" class="span6" ng-change="asaltujuanChange()" required>
+                            <option></option>
+                            <optgroup ng-repeat="(seckey, secval) in shuttlekeberangkatan" label="{{seckey}}">
+                                <option ng-repeat="(catkey, catval) in secval" value="{{catval.shuttleid}}-{{catval.nama}}" >{{catval.nama}}</option>
+                            </optgroup>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Tujuan</label>
+                <div class="controls">
+                    <div class="span12" >
+                        <select ui-select2 name="tujuan" ng-model="data.tujuan" data-placeholder="-- Pilih Tujuan --" class="span6" ng-change="klinikChanged()" required>
+                            <option></option>
+                            <optgroup ng-repeat="(seckey, secval) in shuttletujuan" label="{{seckey}}">
+                                <option ng-repeat="(catkey, catval) in secval" value="{{catval.shuttleid}}-{{catval.nama}}" >{{catval.nama}}</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Penumpang</label>
+                <div class="controls">
+                    <div class="span12" >
+                        <input type="number" name="jumlah" class="span1" maxlength="2" ng-model="data.jumlah"  data-ng-keyup="isNumber(data.jumlah)" required/>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <div class="span12" >
+                       <button  ng-click="prosesdua()" class="btn btn-large btn-primary" type="button">Proses Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+          </div >
+            <!-- proses kedua-->
+          <div ng-switch-when="dua" class="my-switch-animation">
+              <table class="table">
+                  <tr ng-repeat="(k,v) in arrayjam">
+                      <td>Keberangkatan {{ v.namajam }}</td>
+                      <td style="width: 1%;">
+                          <button  ng-click="prosestiga(v.jamkeberangkatanid,v.namajam)" class="btn btn-info" type="button">Pilih</button>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+
+          <div ng-switch-when="tiga" class="my-switch-animation">
+              <div class="row-fluid">
+              <div class="span6">
+                <div data-ng-repeat="(k,v) in data.namapemesan">
+                  <div class="control-group">
+                      <label class="control-label">Nama Pemesan {{$index +1}}</label>
+                      <div class="controls">
+                          <div class="span12" >
+
+                              <input type="text" name="nama" ng-model="data.namapemesan[$index].nama" class="span10"  required/>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                  <div class="control-group">
+                      <label class="control-label">No HP</label>
+                      <div class="controls">
+                          <div class="span12" >
+                              <input type="text" name="nohp" class="span10"  ng-model="data.nohp" />
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="control-group">
+                      <div class="controls">
+                          <div class="span12" >
+                              <button  ng-click="prosesempat()" class="btn btn-large btn-primary" type="button">Proses Selanjutnya</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="span6">
+                  <table class="table">
+                      <tr>
+                          <td>Keberangkatan</td>
+                          <td>{{data.asal}}</td>
+                      </tr>
+                      <tr>
+                          <td>Ke</td>
+                          <td>{{data.tujuan}}</td>
+                      </tr>
+                      <tr>
+                          <td>Tanggal</td>
+                          <td> {{data.tanggal | date:'fullDate' }}</td>
+                      </tr>
+                      <tr>
+                          <td>Jam</td>
+                          <td>{{data.jam}} </td>
+                      </tr>
+                      <tr>
+                          <td>Jumlah</td>
+                          <td>{{data.jumlah}} Orang</td>
+                      </tr>
+                      <tr>
+                          <td>Harga/orang </td>
+                          <td>{{data.harga | currency:'Rp ' }}</td>
+                      </tr>
+                      <tr>
+                          <td>Total Harga  </td>
+                          <td>{{ (data.harga * data.jumlah) | currency:'Rp ' }}</td>
+                      </tr>
+                  </table>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div ng-switch-when="empat" class="my-switch-animation">
+
+              <div class="control-group">
+                  <div class="controls">
+                        <div class="row-fluid">
+                           <b style="padding-left: 30%;" class="text-warning" data-ng-show="data.jumlah != 0"> Jumlah kursi yang harus anda pilih {{data.jumlah}}</b><br>
+                          <div class="span12" style="margin-left: 35%;">
+                          <table>
+                              <tbody>
+                              <tr>
+                                  <td ng-click="pilihkursi(1)"><div ng-bind-html="kursi[1].isi"></div></td>
+                                  <td></td>
+                                  <td><img src="./image/kursi-sopir.png"></td>
+                              </tr>
+
+                              <tr>
+                                  <td ng-click="pilihkursi(2)"><div ng-bind-html="kursi[2].isi"></div></td>
+                                  <td ng-click="pilihkursi(3)"><div ng-bind-html="kursi[3].isi"></div></td>
+                                  <td ng-click="pilihkursi(4)"><div ng-bind-html="kursi[4].isi"></div></td>
+                              </tr>
+                              <tr>
+                                  <td ng-click="pilihkursi(5)"><div ng-bind-html="kursi[5].isi"></div></td>
+                                  <td ng-click="pilihkursi(6)"><div ng-bind-html="kursi[6].isi"></div></td>
+                                  <td ng-click="pilihkursi(7)"><div ng-bind-html="kursi[7].isi"></div></td>
+                              </tr>
+                              <tr>
+                                  <td ng-click="pilihkursi(8)"><div ng-bind-html="kursi[8].isi"></div></td>
+                                  <td ng-click="pilihkursi(9)"><div ng-bind-html="kursi[9].isi"></div></td>
+                                  <td ng-click="pilihkursi(10)"><div ng-bind-html="kursi[10].isi"></div></td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                          <div class="span3" style="margin-left: 30%; margin-top: 10px;" ><h6><p class="text-warning">CATATAN: KURSI SEWAKTU-WAKTU DAPAT DIPESAN OLEH PENGGUNA LAIN YANG TERLEBIH DAHULU MENYELESAIKAN PEMBELIANNYA.</p></h6></div>
+                          <div class="span6" style="margin-left: 30%;"><button  ng-click="selesai()"style="width: 240px;" class="btn btn-large btn-primary" type="button">Selesai</button></div>
+                        </div>
+                  </div>
+              </div>
+          </div>
+
+          <div ng-switch-when="lima" class="my-switch-animation">
+              <div class="span6 noprint" ><button  onclick="javascript:window.print()" class="btn btn-large btn-primary noprint" type="button">Print</button></div>
+
+                 <table class="printable" data-ng-repeat="(k,v) in data.namapemesan">
+                     <tr>
+                         <td>Nama</td>
+                         <td>:</td>
+                         <td>{{v.nama}}</td>
+                     </tr>
+                     <tr>
+                         <td>Asal</td>
+                         <td>:</td>
+                         <td> {{data.asal}}</td>
+                     </tr>
+                     <tr>
+                         <td>Tujuan</td>
+                         <td>:</td>
+                         <td> {{data.tujuan}}</td>
+                     </tr>
+                     <tr>
+                         <td>Tanggal</td>
+                         <td>:</td>
+                         <td> {{data.tanggal}}</td>
+                     </tr>
+                     <tr>
+                         <td>Jam</td>
+                         <td>:</td>
+                         <td> {{data.jam}}</td>
+                     </tr>
+                     <tr>
+                         <td>Harga</td>
+                         <td>:</td>
+                         <td> {{data.harga}}</td>
+                     </tr>
+                 </table>
+
+         </div>
+        </div>
+        </form>
+
+    </div>
+</div>
+
+

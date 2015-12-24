@@ -1,0 +1,193 @@
+<div growl></div>
+<div ng-include src="'./core/view/header.html'"></div>
+<!--<div id="metro-container" class="-container">-->
+<!--<div class="row">-->
+<!--<div id="hub" class="metro">-->
+<div class="metro panorama">
+    <div class="panorama-sections">
+
+        <div class="panorama-section">
+
+            <h2>Pemesanan</h2>
+            <div class="tile-column-span-2">
+                <a class="tile wide imagetext wideimage bg-color-green" href="./index.html#!/pemesanan/jakarta">
+                    <img src="./image/monas4.jpg" alt=""/>
+                    <div class="textover-wrapper transparent">
+                        <div class="text2">Tujuan Ke Jakarta</div>
+                    </div>
+                </a>
+
+                <a class="tile wide imagetext wideimage bg-color-green" href="./index.html#!/pemesanan/bandung">
+                    <img src="./image/gdsate.jpg" alt=""/>
+                    <div class="textover-wrapper transparent">
+                        <div class="text2">Tujuan Ke Bandung</div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="panorama-section">
+            <h2>Cuaca</h2>
+            <div>
+            <a  class="tile wide imagetext bg-color-greenDark" href="#">
+                <div class="image-wrapper">
+                    <weather-icon cloudiness="{{ weatherjakarta.clouds }}"></weather-icon>
+                </div>
+                <div class="column-text-big">
+                    <div class="text">Jakarta</div>
+                    <div class="text">Current: {{ weatherjakarta.temp.current | temp:2 }}</div>
+                    <div class="text">min: {{ weatherjakarta.temp.min | temp }}, max: {{ weatherjakarta.temp.max | temp }} </div>
+                </div>
+            </a>
+            </div>
+            <div>
+                <a class="tile wide imagetext bg-color-blue" href="#">
+                    <div class="image-wrapper">
+                        <weather-icon cloudiness="{{ weatherbandung.clouds }}"></weather-icon>
+                    </div>
+                    <div class="column-text-big">
+                        <div class="text">Bandung</div>
+                        <div class="text">Current: {{ weatherbandung.temp.current | temp:2 }}</div>
+                        <div class="text">min: {{ weatherbandung.temp.min | temp }}, max: {{ weatherbandung.temp.max | temp }} </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+
+        <div class="panorama-section tile-span-4">
+
+            <h2>Jam Keberangkatan</h2>
+
+            <a class="tile app bg-color-blue" href="./index.html#!/jadual">
+                <div class="image-wrapper">
+                    <span class="icon  icon-list-2"></span>
+                </div>
+                <div class="app-label">List </div>
+            </a>
+
+
+            <a class="tile wide imagetext bg-color-orange" href="#">
+                <div class="image-wrapper">
+                    <span class="icon  icon-clock"></span>
+                </div>
+                <div class="column-text-big">
+                    <div class="text-header">{{ date | date:'hh mm ss' }}</div>
+                    <div class="text4">{{ date | date:'EEEE,MMMM yyyy' }}</div>
+                </div>
+                <div class="app-label">Jam</div>
+            </a>
+            <a class="tile wide imagetext bg-color-purple" href="#">
+                <div class="image-wrapper">
+                    <span class="icon icon-search"></span>
+                </div>
+                <div class="column-text-big">
+                    <div class="text4">Jam Keberangkatan Terdekat</div>
+                    <div class="text-header">{{ jamterdekat[0] }}</div>
+                </div>
+            </a>
+
+        </div>
+        <div class="panorama-section">
+
+            <h2>Shuttle</h2>
+
+            <a class="tile wide imagetext bg-color-blue" href="./index.html#!/shuttle">
+                <div class="image-wrapper">
+                    <span class="icon  icon-truck"></span>
+                </div>
+                <div class="column-text">
+                    <div class="text-header">Daftar </div>
+                    <div class="text-header">Shuttle</div>
+                </div>
+            </a>
+
+        </div>
+        <div class="panorama-section">
+            <h2>Harga</h2>
+            <div>
+                <a class="tile wide imagetext bg-color-orange" href="#">
+                    <div class="image-wrapper">
+                        <span class="icon   icon-bullhorn"></span>
+                    </div>
+                    <div class="column-text-big">
+                        <div class="text-header">Harga Tiket</div>
+
+                        <div class="text">{{ harga['harga'] | currency:'Rp '}}</div>
+                    </div>
+                </a>
+            </div>
+            <a data-ng-if="level[0]['level'] == 'admin'"  class="tile wide imagetext bg-color-greenDark" href="#">
+                <div class="image-wrapper">
+                    <span class="icon  icon-pencil"></span>
+                </div>
+                <div class="column-text-big">
+                    <div class="text-header">Edit Harga</div>
+                    <div class="text-header"><input type="text" data-ng-model="harga['harga']"></div>
+                    <div class="text-header"><button data-ng-click="changeharga()" class="btn-danger"><img data-ng-show="loading" src="image/ajax-loader.gif"> <p data-ng-hide="loading">Save</p></button></div>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="panorama-section tile-span-4">
+
+            <h2>User</h2>
+
+            <a class="tile wide imagetext bg-color-blue" href="#">
+                <div class="image-wrapper">
+                    <span class="icon icon-user-6"></span>
+                </div>
+                <div class="column-text">
+                    <div class="text-header">{{ level[0]['nama'] }}</div>
+                    <div class="text">Shuttle {{ level[0]['namashuttle'] }}</div>
+                    <div class="text">{{ level[0]['kotaid'] }}</div>
+                </div>
+            </a>
+
+            <a class="tile wide imagetext bg-color-blueDark" href="#">
+                <div class="image-wrapper">
+                    <span class="icon icon-pencil"></span>
+                </div>
+                <div class="column-text">
+                    <div class="text">Ganti Password</div>
+                    <div class="text-header"><input type="password" data-ng-model="password"  placeholder="Password"> </div>
+                    <div class="text-header"><input type="password" data-ng-model="passwordulangi"  placeholder="Ulangi Password"> </div>
+                    <div class="text-header"><button class="btn-danger" data-ng-click="changePassword()"><img data-ng-show="loadingp" src="image/ajax-loader.gif"> <p data-ng-hide="loadingp">Save</p></button></div>
+                </div>
+            </a>
+            <a data-ng-if="level[0]['level'] == 'admin'"  class="tile app bg-color-orange" href="./index.html#!/user">
+                <div class="image-wrapper">
+                    <span class="icon  icon-list-2"></span>
+                </div>
+                <div class="app-label">List </div>
+            </a>
+
+        </div>
+
+    </div>
+</div>
+<a id="panorama-scroll-prev" href="#"></a>
+<a id="panorama-scroll-next" href="#"></a>
+<div id="panorama-scroll-prev-bkg"></div>
+<div id="panorama-scroll-next-bkg"></div>
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<script type="text/javascript">
+
+    $('.panorama').panorama({
+        //nicescroll: false,
+        showscrollbuttons: true,
+        keyboard: true,
+        parallax: true
+    });
+
+    //      $(".panorama").perfectScrollbar();
+
+    $('#pivot').pivot();
+
+</script>

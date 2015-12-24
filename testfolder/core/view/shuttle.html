@@ -1,0 +1,112 @@
+<div ng-include src="'./core/view/header.html'"></div>
+<div growl></div>
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <div class="row">
+                <div class="span12">
+                    <table class="table table-condensed ">
+                        <thead>
+                        <tr>
+                            <th>Shuttle</th>
+                            <th>Kota</th>
+                            <th data-ng-if="level[0]['level'] == 'admin'">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="v in shuttle" class="repeat-item">
+                            <td>{{v.nama}}</td>
+                            <td>{{v.kotaid}}</td>
+                            <td style="width: 10%;" data-ng-if="level[0]['level'] == 'admin'">
+                                <button  ng-click="modalJadual('Edit',v.shuttleid)" class="btn btn-info" type="button">Edit</button>
+                            </td>
+                            <td style="width: 10%;" data-ng-if="level[0]['level'] == 'admin'">
+                                <button  ng-click="delete(v.shuttleid)" class="btn btn-info" type="button">Delete</button>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal {{modaloption}} " data-ng-init="modaloption='hide'">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" data-ng-click="closeModal()" aria-hidden="true"></button>
+        <h3 style="color: #040404">{{action}} Data</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" style="color: #040404">Shuttle</label>
+                <div class="controls">
+                    <div class="span12" >
+                        <input type="text" name="jam" class="span6"  ng-model="data.nama" />
+                        <input type="hidden" name="jamkeberangkatanid" class="span6"  ng-model="data.jamkeberangkatanid" />
+                    </div>
+                </div>
+            </div>
+            <div class="control-group" >
+                <label class="control-label" style="color: #040404">Kota</label>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" ng-model="data.kotaid" value="bandung" required="required"><span class="metro-radio"style="color: #040404">Bandung</span>
+                    </label>
+                    <label class="radio">
+                        <input type="radio" ng-model="data.kotaid" value="jakarta" required="required"><span class="metro-radio"style="color: #040404">Jakarta</span>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button"  data-ng-click="closeModal()" class="btn">Close</button>
+        <button ng-click="save(data,action)" class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+
+<footer class="win-ui-dark win-commandlayout navbar-fixed-bottom">
+    <div class="container">
+        <div class="row">
+
+            <div class="span4 align-left">
+                <a href="./index.html#!/home"class="win-command">
+                    <span class="win-commandicon win-commandring icon-home"></span>
+                    <span class="win-label">Home</span>
+                </a>
+                <hr class="win-command">
+                <button class="win-command" ng-click="modalJadual('Tambah')" data-ng-if="level[0]['level'] == 'admin'">
+                    <span class="win-commandicon win-commandring icon-plus-5"></span>
+                    <span class="win-label">Tambah</span>
+                </button>
+            </div>
+            <div class="span8 align-right">
+                <button class="win-command" ng-click="gotoPage(pagefirst)" ng-disabled="page <= pagefirst">
+                    <span class="win-commandicon win-commandring   icon-first"></span>
+                    <span class="win-label">Pertama</span>
+                </button>
+                <button class="win-command" ng-click="gotoPage(page-1)" ng-disabled="page <= pagefirst">
+                    <span class="win-commandicon win-commandring icon-previous"></span>
+                    <span class="win-label">Sebelumnya</span>
+                </button>
+                <button type="button" class="win-command" ng-repeat="p in pagination" ng-click="gotoPage(p)">
+                    <span class="win-commandicon win-commandring icon-grid"></span>
+                    <span class="win-label">Page {{p}}</span>
+                </button>
+                <button class="win-command" ng-click="gotoPage('berikutnya')" ng-disabled="page >= pagelast">
+                    <span class="win-commandicon win-commandring icon-next"></span>
+                    <span class="win-label">Berikutnya</span>
+                </button>
+                <button class="win-command" ng-click="gotoPage(pagelast)" ng-disabled="page >= pagelast">
+                    <span class="win-commandicon win-commandring  icon-last"></span>
+                    <span class="win-label">Terakhir</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
